@@ -16,7 +16,8 @@ const addCommeunt = async (req, res) => {
             postId: req.params.postId,
             createdBy: req.user.id
         });
-        return res.status(201).json({ message: "Comment added", Comment });
+        const commentName = await commentDB.findById(Comment._id).populate({path:"createdBy", select: "usersName role"});   
+        return res.status(201).json({ message: "Comment added", commentName });
     }
     catch (error) {
         return res.status(500).json({ message: "Failed to add comment", error: error.message });
